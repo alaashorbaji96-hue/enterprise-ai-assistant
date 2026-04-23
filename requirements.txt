@@ -8,3 +8,4 @@ requests
 numpy
 scikit-learn
 streamlit-agraph
+matplotlib
