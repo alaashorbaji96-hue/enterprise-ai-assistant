@@ -14,7 +14,7 @@ st.set_page_config(
     page_title="Enterprise AI Assistant",
     layout="wide",
     initial_sidebar_state="expanded"
-)j
+)
 
 # ================= SESSION INIT =================
 if "page" not in st.session_state:
