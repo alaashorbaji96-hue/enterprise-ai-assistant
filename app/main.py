@@ -1,3 +1,7 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import streamlit as st
 
 from app.views.home_page import HomePage
@@ -10,7 +14,7 @@ st.set_page_config(
     page_title="Enterprise AI Assistant",
     layout="wide",
     initial_sidebar_state="expanded"
-)
+)j
 
 # ================= SESSION INIT =================
 if "page" not in st.session_state:
