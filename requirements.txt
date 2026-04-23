@@ -1,0 +1,11 @@
+streamlit
+pypdf
+sentence-transformers==2.2.2
+faiss-cpu==1.7.4
+google-generativeai
+python-dotenv
+pandas
+reportlab
+requests
+numpy
+scikit-learn

@@ -1,0 +1,16 @@
+Date,Region,Product,Sales,Profit,Quantity
+2024-01-01,Middle East,Laptop,1200,300,2
+2024-01-02,Europe,Phone,800,200,3
+2024-01-03,USA,Tablet,600,150,4
+2024-01-04,Middle East,Phone,950,250,5
+2024-01-05,Europe,Laptop,1400,350,2
+2024-01-06,USA,Tablet,700,180,3
+2024-01-07,Middle East,Laptop,1300,320,2
+2024-01-08,Europe,Phone,850,210,4
+2024-01-09,USA,Tablet,620,160,3
+2024-01-10,Middle East,Phone,980,260,5
+2024-01-11,Europe,Laptop,1500,400,2
+2024-01-12,USA,Tablet,750,190,4
+2024-01-13,Middle East,Laptop,1350,330,2
+2024-01-14,Europe,Phone,870,220,3
+2024-01-15,USA,Tablet,680,170,4
