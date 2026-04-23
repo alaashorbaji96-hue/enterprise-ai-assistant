@@ -1,17 +1,25 @@
-from sentence_transformers import SentenceTransformer
-import faiss
+# =========================================
+# 🔹 SAFE IMPORT (RAG OPTIONAL)
+# =========================================
+try:
+    from sentence_transformers import SentenceTransformer
+    import faiss
+    RAG_AVAILABLE = True
+except:
+    RAG_AVAILABLE = False
+
 import numpy as np
-
-# 🔥 مهم: نستخدم LLM داخل الريرنك
 from core.llm import generate_answer
-
 import json
 import re
 
 # =========================================
-# 🔹 LOAD MODEL
+# 🔹 LOAD MODEL (ONLY IF AVAILABLE)
 # =========================================
-model = SentenceTransformer('all-MiniLM-L6-v2')
+if RAG_AVAILABLE:
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+else:
+    model = None
 
 
 # =========================================
@@ -40,34 +48,33 @@ def create_chunks(text, chunk_size=400, overlap=100):
 
 
 # =========================================
-# 🔹 VECTOR STORE (COSINE SIMILARITY)
+# 🔹 VECTOR STORE
 # =========================================
 def create_vector_store(chunks):
+
+    if not RAG_AVAILABLE:
+        return None, None
+
     texts = [c["text"] for c in chunks]
 
     embeddings = model.encode(texts, convert_to_numpy=True)
 
-    # ✅ Normalize embeddings
     faiss.normalize_L2(embeddings)
 
     dimension = embeddings.shape[1]
-
-    # ✅ Cosine similarity
     index = faiss.IndexFlatIP(dimension)
-
     index.add(embeddings)
 
     return index, embeddings
 
 
 # =========================================
-# 🔥 HELPER: CLEAN JSON (محسن)
+# 🔥 CLEAN JSON
 # =========================================
 def extract_json(text):
     try:
         return json.loads(text)
     except:
-        # 🔥 نحاول نطلع JSON من النص
         match = re.search(r'\[.*?\]', text, re.DOTALL)
         if match:
             try:
@@ -78,7 +85,7 @@ def extract_json(text):
 
 
 # =========================================
-# 🔥 LLM RE-RANKING (PRO VERSION++)
+# 🔥 LLM RE-RANK
 # =========================================
 def llm_rerank(query, results):
 
@@ -114,7 +121,6 @@ Chunks:
         if isinstance(idx, int) and idx < len(results):
             valid_indices.append(idx)
 
-    # 🔥 fallback
     if not valid_indices:
         return results[:3]
 
@@ -122,7 +128,7 @@ Chunks:
 
 
 # =========================================
-# 🔥 HELPER: SMART COMPRESSION (محسن)
+# 🔥 SMART COMPRESSION
 # =========================================
 def smart_compress(text):
     sentences = text.split(".")
@@ -132,11 +138,14 @@ def smart_compress(text):
 
 
 # =========================================
-# 🔹 SEARCH (FINAL STRONG VERSION+++)
+# 🔹 SEARCH
 # =========================================
 def search(query, chunks, index, embeddings, k=8):
 
-    # 🔹 Encode query
+    # 💀 fallback mode (no RAG)
+    if not RAG_AVAILABLE or index is None:
+        return [], 0
+
     query_embedding = model.encode([query], convert_to_numpy=True)
     faiss.normalize_L2(query_embedding)
 
@@ -154,40 +163,23 @@ def search(query, chunks, index, embeddings, k=8):
             "page": chunks[idx].get("page", "")
         })
 
-    # =========================================
-    # 🔥 DYNAMIC THRESHOLD (محسن + أكثر أمان)
-    # =========================================
+    # 🔹 threshold
     if results:
         max_score = max(r["score"] for r in results)
         threshold = max(max_score * 0.6, 0.3)
     else:
         threshold = 0
 
-    # 🔥 FILTER + FALLBACK (أهم تعديل)
     filtered = [r for r in results if r["score"] >= threshold]
 
     if not filtered:
         filtered = results[:3]
 
-    results = filtered
+    results = sorted(filtered, key=lambda x: x["score"], reverse=True)
 
-    # =========================================
-    # 🔥 SORT
-    # =========================================
-    results = sorted(results, key=lambda x: x["score"], reverse=True)
-
-    # =========================================
-    # 🔥 LLM RE-RANK
-    # =========================================
     results = llm_rerank(query, results)
 
-    # =========================================
-    # 🔥 SMART COMPRESSION
-    # =========================================
     for r in results:
         r["text"] = smart_compress(r["text"])
 
-    # =========================================
-    # 🔥 RETURN (محسن)
-    # =========================================
-    return results, len(results) if results else 0
+    return results, len(results)
