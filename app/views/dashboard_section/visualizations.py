@@ -50,22 +50,26 @@ def render(df, numeric_cols, date_cols, cat_cols):
 
         # Distribution
         with col1:
-            fig, ax = plt.subplots(figsize=(6, 4))
+            fig, ax = plt.subplots(figsize=(5, 3))
             sns.histplot(df[selected_col], kde=True, color=user_color, ax=ax)
             ax.set_title("Distribution", color="white")
-            ax.grid(alpha=0.2)
+            ax.grid(alpha=0.15)
+            ax.tick_params(labelsize=9)
             fig.patch.set_facecolor("#111111")
             ax.set_facecolor("#111111")
+            plt.tight_layout()
             st.pyplot(fig)
 
         # Boxplot
         with col2:
-            fig, ax = plt.subplots(figsize=(6, 4))
+            fig, ax = plt.subplots(figsize=(5, 3))
             sns.boxplot(x=df[selected_col], color=user_color, ax=ax)
             ax.set_title("Boxplot", color="white")
-            ax.grid(alpha=0.2)
+            ax.grid(alpha=0.15)
+            ax.tick_params(labelsize=9)
             fig.patch.set_facecolor("#111111")
             ax.set_facecolor("#111111")
+            plt.tight_layout()
             st.pyplot(fig)
 
         # -------- Row 2 --------
@@ -73,12 +77,14 @@ def render(df, numeric_cols, date_cols, cat_cols):
 
         # Violin
         with col1:
-            fig, ax = plt.subplots(figsize=(6, 4))
+            fig, ax = plt.subplots(figsize=(5, 3))
             sns.violinplot(x=df[selected_col], color=user_color, ax=ax)
             ax.set_title("Violin", color="white")
-            ax.grid(alpha=0.2)
+            ax.grid(alpha=0.15)
+            ax.tick_params(labelsize=9)
             fig.patch.set_facecolor("#111111")
             ax.set_facecolor("#111111")
+            plt.tight_layout()
             st.pyplot(fig)
 
         # Scatter
@@ -86,7 +92,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
             other_col = [c for c in numeric_cols if c != selected_col][0]
 
             with col2:
-                fig, ax = plt.subplots(figsize=(6, 4))
+                fig, ax = plt.subplots(figsize=(5, 3))
                 sns.scatterplot(
                     x=df[selected_col],
                     y=df[other_col],
@@ -94,13 +100,15 @@ def render(df, numeric_cols, date_cols, cat_cols):
                     ax=ax
                 )
                 ax.set_title(f"{selected_col} vs {other_col}", color="white")
-                ax.grid(alpha=0.2)
+                ax.grid(alpha=0.15)
+                ax.tick_params(labelsize=9)
                 fig.patch.set_facecolor("#111111")
                 ax.set_facecolor("#111111")
+                plt.tight_layout()
                 st.pyplot(fig)
 
         # =========================
-        # ⏳ TIME TREND (UPDATED)
+        # ⏳ TIME TREND (محسّن)
         # =========================
         if date_cols:
             st.markdown("### Trend")
@@ -108,7 +116,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
             date_col = date_cols[0]
             df_sorted = df.sort_values(date_col)
 
-            fig, ax = plt.subplots(figsize=(10, 4))
+            fig, ax = plt.subplots(figsize=(8, 3))
 
             sns.lineplot(
                 x=df_sorted[date_col],
@@ -117,18 +125,18 @@ def render(df, numeric_cols, date_cols, cat_cols):
                 ax=ax
             )
 
-            # 🔥 تحسين القراءة
             ax.set_xticks(ax.get_xticks()[::5])
             plt.xticks(rotation=45)
 
-            ax.tick_params(axis='x', labelsize=10, colors='white')
-            ax.tick_params(axis='y', labelsize=10, colors='white')
+            ax.tick_params(axis='x', labelsize=9, colors='white')
+            ax.tick_params(axis='y', labelsize=9, colors='white')
 
-            ax.grid(alpha=0.2)
+            ax.grid(alpha=0.15)
 
             fig.patch.set_facecolor("#111111")
             ax.set_facecolor("#111111")
 
+            plt.tight_layout()
             st.pyplot(fig)
 
     # =========================
@@ -138,7 +146,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
 
         counts = df[selected_col].value_counts().head(10)
 
-        fig, ax = plt.subplots(figsize=(8, 4))
+        fig, ax = plt.subplots(figsize=(6, 3))
         sns.barplot(
             x=counts.values,
             y=counts.index,
@@ -147,9 +155,11 @@ def render(df, numeric_cols, date_cols, cat_cols):
         )
 
         ax.set_title("Top Categories", color="white")
-        ax.grid(alpha=0.2)
+        ax.grid(alpha=0.15)
+        ax.tick_params(labelsize=9)
 
         fig.patch.set_facecolor("#111111")
         ax.set_facecolor("#111111")
 
+        plt.tight_layout()
         st.pyplot(fig)

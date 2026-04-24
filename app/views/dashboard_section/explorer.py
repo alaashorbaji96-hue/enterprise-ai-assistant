@@ -80,7 +80,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
         if col in numeric_cols:
             data = normalize_data(data, normalize)
 
-        fig, ax = plt.subplots(figsize=(6, 4))
+        fig, ax = plt.subplots(figsize=(5, 3))
 
         if chart_type == "Histogram":
             sns.histplot(data, kde=True, color=color, ax=ax)
@@ -95,9 +95,13 @@ def render(df, numeric_cols, date_cols, cat_cols):
             counts = data.value_counts().head(10)
             sns.barplot(x=counts.values, y=counts.index, color=color, ax=ax)
 
-        ax.set_facecolor("#111111")
-        fig.patch.set_facecolor("#111111")
+        ax.grid(alpha=0.15)
+        ax.tick_params(labelsize=9)
 
+        fig.patch.set_facecolor("#111111")
+        ax.set_facecolor("#111111")
+
+        plt.tight_layout()
         st.pyplot(fig)
 
         # =========================
@@ -169,7 +173,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
             ["None", "Min-Max", "Z-score"]
         )
 
-        fig, ax = plt.subplots(figsize=(6, 4))
+        fig, ax = plt.subplots(figsize=(5, 3))
 
         if chart_type == "Scatter":
             sns.scatterplot(
@@ -198,12 +202,15 @@ def render(df, numeric_cols, date_cols, cat_cols):
             )
 
             pivot = pd.crosstab(df[col1], df[col2])
-
             sns.heatmap(pivot, cmap=heatmap_style, ax=ax)
 
-        ax.set_facecolor("#111111")
-        fig.patch.set_facecolor("#111111")
+        ax.grid(alpha=0.15)
+        ax.tick_params(labelsize=9)
 
+        fig.patch.set_facecolor("#111111")
+        ax.set_facecolor("#111111")
+
+        plt.tight_layout()
         st.pyplot(fig)
 
         # =========================
@@ -263,7 +270,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
 
         else:
 
-            fig, ax = plt.subplots(figsize=(6, 4))
+            fig, ax = plt.subplots(figsize=(5, 3))
 
             sns.scatterplot(
                 x=df[selected[0]],
@@ -272,6 +279,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
                 ax=ax
             )
 
+            plt.tight_layout()
             st.pyplot(fig)
 
         # =========================
@@ -282,8 +290,6 @@ def render(df, numeric_cols, date_cols, cat_cols):
             st.markdown("### Multi-Variable Analysis")
 
             st.write(f"Analyzing {len(selected)} variables.")
-
             st.write("Look for clusters, patterns, and interactions.")
-
             st.write("Clusters indicate segmentation.")
             st.write("Linear patterns indicate strong relationships.")

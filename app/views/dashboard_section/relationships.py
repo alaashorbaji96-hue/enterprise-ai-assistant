@@ -46,11 +46,11 @@ def render(df, numeric_cols, date_cols, cat_cols):
     weak5 = filtered.tail(5)
 
     # ======================================================
-    # 🔥 HEATMAP
+    # 🔥 HEATMAP (محسّن)
     # ======================================================
     st.markdown("### Correlation Overview")
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(6, 4))
 
     sns.heatmap(
         corr,
@@ -63,10 +63,12 @@ def render(df, numeric_cols, date_cols, cat_cols):
     )
 
     ax.set_title("Correlation Matrix", color="white")
+    ax.tick_params(labelsize=8)
 
     fig.patch.set_facecolor("#111111")
     ax.set_facecolor("#111111")
 
+    plt.tight_layout()
     st.pyplot(fig)
 
     # 🔘 BUTTON
@@ -83,7 +85,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
     st.markdown("---")
 
     # ======================================================
-    # 🔥 PAIRPLOT
+    # 🔥 PAIRPLOT (محسّن)
     # ======================================================
     st.markdown("### Multi-Dimensional Relationships")
 
@@ -124,13 +126,13 @@ def render(df, numeric_cols, date_cols, cat_cols):
     st.markdown("---")
 
     # ======================================================
-    # 🔥 TOP RELATIONSHIPS
+    # 🔥 TOP RELATIONSHIPS (محسّن)
     # ======================================================
     st.markdown("### Top Relationships")
 
     for (c1, c2), val in top5.items():
 
-        fig, ax = plt.subplots(figsize=(5, 3))  # 👈 أصغر
+        fig, ax = plt.subplots(figsize=(5, 3))
 
         sns.regplot(
             x=df[c1],
@@ -141,14 +143,15 @@ def render(df, numeric_cols, date_cols, cat_cols):
         )
 
         ax.set_title(f"{c1} vs {c2}", color="white")
-        ax.grid(alpha=0.2)
+        ax.grid(alpha=0.15)
+        ax.tick_params(labelsize=9)
 
         fig.patch.set_facecolor("#111111")
         ax.set_facecolor("#111111")
 
+        plt.tight_layout()
         st.pyplot(fig)
 
-        # 🔥 INSIGHT STYLE
         st.markdown(
             f"""
             <div style="
@@ -165,7 +168,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
         st.markdown("---")
 
     # ======================================================
-    # 🔥 WEAK RELATIONSHIPS
+    # 🔥 WEAK RELATIONSHIPS (محسّن)
     # ======================================================
     st.markdown("### Weak Relationships")
 
@@ -173,7 +176,7 @@ def render(df, numeric_cols, date_cols, cat_cols):
 
     for (c1, c2), val in weak3.items():
 
-        fig, ax = plt.subplots(figsize=(5, 3))  # 👈 أصغر
+        fig, ax = plt.subplots(figsize=(5, 3))
 
         sns.scatterplot(
             x=df[c1],
@@ -183,14 +186,15 @@ def render(df, numeric_cols, date_cols, cat_cols):
         )
 
         ax.set_title(f"{c1} vs {c2}", color="white")
-        ax.grid(alpha=0.2)
+        ax.grid(alpha=0.15)
+        ax.tick_params(labelsize=9)
 
         fig.patch.set_facecolor("#111111")
         ax.set_facecolor("#111111")
 
+        plt.tight_layout()
         st.pyplot(fig)
 
-        # 🔥 INSIGHT STYLE
         st.markdown(
             f"""
             <div style="
