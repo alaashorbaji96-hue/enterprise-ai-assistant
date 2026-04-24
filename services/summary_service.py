@@ -1,6 +1,7 @@
 from core.llm import generate_answer
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
+from xml.sax.saxutils import escape
 import io
 
 
@@ -86,8 +87,11 @@ Text:
 
         content = []
 
+        from xml.sax.saxutils import escape
+
         for line in summary.split("\n"):
-            content.append(Paragraph(line, styles["Normal"]))
+            safe_line = escape(line)
+            content.append(Paragraph(safe_line, styles["Normal"]))
 
         doc.build(content)
         buffer.seek(0)
