@@ -157,8 +157,8 @@ The system generates structured summaries:
 
 ## 🔍 Dataset Overview
 
-![Overview 1](assets/DASHBOARD_OVERVIEW1.png)
-![Overview 2](assets/DASHBOARD_OVERVIEW2.png)
+![Overview 1](assets/dashboard_overview1.png)
+![Overview 2](assets/dashboard_overview2.png)
 
 ### System detects automatically:
 
@@ -219,11 +219,11 @@ The system categorizes:
 
 ---
 
-![Explorer 1](assets/DASHBOARD_EXPLOR1.png)
-![Explorer 2](assets/DASHBOARD_EXPLOR2.png)
-![Explorer 3](assets/DASHBOARD_EXPLOR3.png)
-![Explorer 4](assets/DASHBOARD_EXPLOR4.png)
-![Explorer 5](assets/DASHBOARD_EXPLOR5.png)
+![Explorer 1](assets/dashboard_explor1.png)
+![Explorer 2](assets/dashboard_explor2.png)
+![Explorer 3](assets/dashboard_explor3.png)
+![Explorer 4](assets/dashboard_explor4.png)
+![Explorer 5](assets/dashboard_explor5.png)
 
 ---
 
